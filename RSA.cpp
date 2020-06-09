@@ -5,7 +5,7 @@ using namespace std;
 #define IN freopen("in.txt", "r", stdin);
 #define OUT freopen("out.txt", "w", stdout);
 #define LL long long int
-#define MX 500001
+#define MX 500000001
 #define max3(a, b, c) max(a, max(b, c))
 #define min3(a, b, c) min(a, min(b, c))
 #define max4(a, b, c, d) max(a, max3(b, c, d))

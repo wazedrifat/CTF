@@ -1,3 +1,4 @@
+//wazed RIfat
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -138,7 +139,7 @@ int main() {
 	cout << "publicKey = " << publicKey << endl;		//ThisIsForDebuggingPurposes
 	cout << "mod = " << mod << endl;		//ThisIsForDebuggingPurposes
 	cout << endl << endl << endl;		//ThisIsForDebuggingPurposes
-	
+
 	cout << "code = " << code << endl;		//ThisIsForDebuggingPurposes
 	cout << "privateKey = " << privateKey << endl;		//ThisIsForDebuggingPurposes
 

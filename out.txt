@@ -1,3 +1,9 @@
-enter public text : enter public key : enter mod : code = 52
-privateKey = 49
-recoveredText = 117
+text = 13
+publicKey = 13
+mod = 143
+
+
+
+code = 52
+privateKey = 37
+recoveredText = 13

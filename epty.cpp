@@ -17,8 +17,8 @@ using namespace std;
 #define VVI vector <VI>
 
 bool flag[MX];
-vector<int> prime;
-void SieveOfEratosthenes(int limit = MX)
+vector<LL> prime;
+void SieveOfEratosthenes(LL limit = MX)
 {
 	prime.clear();
 	flag[0] = flag[1] = 1;
@@ -42,10 +42,10 @@ void SieveOfEratosthenes(int limit = MX)
 //	that are coPrime with N
 //	Number of elements e, such that gcd(e,n)=d is equal to ϕ(nd).
 //	∑of (d/n)  [ ] = n.
-int eulerPhi(int n) {
-	int res = n, sqrtn = sqrt(n);
+LL eulerPhi(LL n) {
+	LL res = n, sqrtn = sqrt(n);
 
-	for (int i = 0; i < prime.size() && prime[i] <= sqrtn; i++) {
+	for (LL i = 0; i < prime.size() && prime[i] <= sqrtn; i++) {
 		if (n % prime[i] == 0) {
 			while (n % prime[i] == 0)
 				n /= prime[i];
@@ -64,8 +64,8 @@ int eulerPhi(int n) {
 }
 
 //	returns (n^p) % mod
-int bigMod(int n, int p, int mod ) {
-	int res = 1%mod, x = n%mod;
+LL bigMod(LL n, LL p, LL mod ) {
+	LL res = 1%mod, x = n%mod;
 
 	while (p) {
 		if (p&1)
@@ -78,8 +78,41 @@ int bigMod(int n, int p, int mod ) {
 }
 
 //	x = (1/a) % mod
-int modInv(int a, int mod) {	//	mod is prime
+LL modInv(LL a, LL mod) {	//	mod is prime
 	return bigMod(a, mod - 2, mod);
+}
+
+int ext_GCD(LL a, LL b, LL &X, LL &Y) {
+	LL x, y, x1, y1, x2, y2, r, r1, r2, q;
+	x1 = 0;		y1 = 1;
+	x2 = 1;		y2 = 0;
+	r1 = b;		r2 = a;
+
+	for ( ; r1 != 0; ) {
+		q = r2 / r1;
+		r = r2 % r1;
+		x = x2 - (q * x1);
+		y = y2 - (q * x1);
+
+		r2 = r1;
+		r1 = r;
+		x2 = x1;
+		y2 = y1;
+		x1 = x;
+		y1 = y;
+	}
+	X = x2;		Y = y2;
+	return r2;
+}
+
+LL modInv2(LL a, LL mod) {	//	mod need not be prime
+	LL x, y;
+	ext_GCD(a, mod, x, y);
+
+	x %= mod;
+	if (x < 0)	
+		x += mod;
+	return x;
 }
 
 int main() {
@@ -89,18 +122,23 @@ int main() {
 
 	LL publicKey, text, mod;
 
-	cout << "enter public text : ";
+	// cout << "enter public text : ";
 	cin >> text;
 
-	cout << "enter public key : ";
+	// cout << "enter public key : ";
 	cin >> publicKey;
 
-	cout << "enter mod : ";
+	// cout << "enter mod : ";
 	cin >> mod;
 
 	LL code = bigMod(text, publicKey, mod);
-	LL privateKey = modInv(publicKey, eulerPhi(mod));
-	// privateKey = 37;
+	LL privateKey = modInv2(publicKey, eulerPhi(mod));
+	
+	cout << "text = " << text << endl;		//ThisIsForDebuggingPurposes
+	cout << "publicKey = " << publicKey << endl;		//ThisIsForDebuggingPurposes
+	cout << "mod = " << mod << endl;		//ThisIsForDebuggingPurposes
+	cout << endl << endl << endl;		//ThisIsForDebuggingPurposes
+	
 	cout << "code = " << code << endl;		//ThisIsForDebuggingPurposes
 	cout << "privateKey = " << privateKey << endl;		//ThisIsForDebuggingPurposes
 

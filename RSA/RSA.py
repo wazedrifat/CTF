@@ -1,19 +1,5 @@
+from eulerToientPhi import *
 import time
-from factorise import *
-
-def eulerPhi(n):
-	res = 1
-	fac = factorise(n)
-	prev = -1
-
-	for i in fac:
-		if (i != prev):
-			prev = i
-			n /= i
-		res *= i - 1
-
-	res *= int(n)
-	return int(res)
 
 def bigMod(n : int, p : int, mod : int):
     res = 1 % mod
@@ -45,30 +31,33 @@ def modInv(a, mod):
 		ret += mod	
 	return ret
 
+def numToWord(n):
+	hexvalue = hex(n)[2:]
+	return "".join([chr(int(s, 16)) for s in [hexvalue[i:i+2] for i in range(0,len(hexvalue),2)]])
+
 publicKey = int(input("public key : "))
 mod = int(input("mod : "))
-
-# factorise(mod)
-# eulerPhi(mod)
-
 cypherText = int(input("cypherText : "))
 
 startTime = time.time()
 phi = eulerPhi(mod)
-print("phi = ", phi)
-print("time : ", time.time() - startTime)
-
 privateKey = modInv(publicKey, phi)
+recoveredText = bigMod(cypherText, privateKey, mod)
+
 print()
 print("privateKey = ", privateKey)
-
-check = (privateKey * publicKey) % phi
-print("check = ", check)
-
-recoveredText = bigMod(cypherText, privateKey, mod)
 print("recoveredText = ", recoveredText)
+print(numToWord(recoveredText))
 
+print()
+second = int(time.time() - startTime)
 
-hexRecoveredText = hex(recoveredText)
-print("hex : ", hexRecoveredText)
-print("string : ", bytearray.fromhex(str(hex)).decode())
+if (second >= 3600):
+	hour = second // 3600
+	second %= 3600
+	print(hour, "hour", end = " ")
+if (second >= 60):
+	minute = second // 60
+	second %= 60
+	print(minute, "minute", end = " ")
+print(second, "second", end = " ")
